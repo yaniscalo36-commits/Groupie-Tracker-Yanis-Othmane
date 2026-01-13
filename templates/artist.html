@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{{.Artist.Name}}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<a href="/artists">← Retour</a>
+
+<h1>{{.Artist.Name}}</h1>
+<img src="{{.Artist.Image}}" style="width:300px">
+
+<p>Créé en {{.Artist.CreationDate}}</p>
+<p>Premier album : {{.Artist.FirstAlbum}}</p>
+
+<h3>Membres</h3>
+<ul>
+{{range .Artist.Members}}
+    <li>{{.}}</li>
+{{end}}
+</ul>
+
+<h3>Concerts</h3>
+
+{{range $place, $dates := .Relation.DatesLocations}}
+    <h4>
+        <a href="/location?place={{$place}}">
+            {{$place}}
+        </a>
+    </h4>
+    <ul>
+        {{range $dates}}
+            <li>{{.}}</li>
+        {{end}}
+    </ul>
+{{end}}
+
+</body>
+</html>

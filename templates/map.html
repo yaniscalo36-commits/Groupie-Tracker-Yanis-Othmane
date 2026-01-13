@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Carte des concerts</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<style>
+#map {
+    height: 90vh;
+}
+</style>
+</head>
+
+<body>
+
+<a href="/artists">← Retour</a>
+<h1>Carte des concerts</h1>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+var map = L.map('map').setView([20, 0], 2);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+// villes connues (mini géocodage)
+const coords = {
+    "paris-france": [48.8566, 2.3522],
+    "london-uk": [51.5074, -0.1278],
+    "new_york-usa": [40.7128, -74.0060],
+    "los_angeles-usa": [34.0522, -118.2437],
+    "tokyo-japan": [35.6762, 139.6503]
+};
+
+{{range .}}
+    {{range $place, $dates := .DatesLocations}}
+        if (coords["{{$place}}"]) {
+            L.marker(coords["{{$place}}"])
+            .addTo(map)
+            .bindPopup("{{$place}}<br>{{range $dates}}{{.}}<br>{{end}}");
+        }
+    {{end}}
+{{end}}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Concerts par lieu</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<a href="/artists">← Retour aux artistes</a>
+
+<h1>Concerts à ce lieu</h1>
+
+{{if .}}
+    {{range .}}
+        <div class="artist-card">
+            <h3>Artiste #{{.ArtistID}}</h3>
+            <ul>
+            {{range .Dates}}
+                <li>{{.}}</li>
+            {{end}}
+            </ul>
+        </div>
+    {{end}}
+{{else}}
+    <p>Aucun concert trouvé pour ce lieu.</p>
+{{end}}
+
+</body>
+</html>
