@@ -1,3 +1,3 @@
-module Groupie-Tracker-Yanis-Othmane
+module groupie-tracker
 
 go 1.25.1
