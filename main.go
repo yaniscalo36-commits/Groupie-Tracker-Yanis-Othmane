@@ -13,7 +13,7 @@ func main() {
 	http.HandleFunc("/artists", handlers.Artists)
 	http.HandleFunc("/artist", handlers.Artist)
 	http.HandleFunc("/location", handlers.Location)
-	http.HandleFunc("/map", handlers.Map)
+
 
 
 

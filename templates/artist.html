@@ -1,41 +1,85 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>{{.Artist.Name}}</title>
-    <link rel="stylesheet" href="/static/style.css">
+<meta charset="UTF-8">
+<title>{{.Artist.Name}}</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
+
 <body>
 
-<a href="/artists">← Retour</a>
+<header class="top-header">
+    <h1>{{.Artist.Name}}</h1>
+    <nav>
+        <a href="/artists">← Retour</a>
+    </nav>
+</header>
 
-<h1>{{.Artist.Name}}</h1>
-<img src="{{.Artist.Image}}" style="width:300px">
+<div class="artist-page">
 
-<p>Créé en {{.Artist.CreationDate}}</p>
-<p>Premier album : {{.Artist.FirstAlbum}}</p>
+<div class="artist-left">
+    <img src="{{.Artist.Image}}" alt="{{.Artist.Name}}" class="artist-photo">
 
-<h3>Membres</h3>
-<ul>
-{{range .Artist.Members}}
-    <li>{{.}}</li>
-{{end}}
-</ul>
+    <p><strong>Créé en :</strong> {{.Artist.CreationDate}}</p>
+    <p><strong>Premier album :</strong> {{.Artist.FirstAlbum}}</p>
 
-<h3>Concerts</h3>
-
-{{range $place, $dates := .Relation.DatesLocations}}
-    <h4>
-        <a href="/location?place={{$place}}">
-            {{$place}}
-        </a>
-    </h4>
+    <h3>Membres</h3>
     <ul>
-        {{range $dates}}
-            <li>{{.}}</li>
-        {{end}}
+    {{range .Artist.Members}}
+        <li>{{.}}</li>
+    {{end}}
     </ul>
+</div>
+
+<div class="artist-right">
+    <h3>Carte des concerts</h3>
+    <div id="map"></div>
+
+    <h3>Dates & lieux</h3>
+
+    {{range $place, $dates := .Relation.DatesLocations}}
+        <div class="concert-block">
+            <strong>{{$place}}</strong>
+            <ul>
+                {{range $dates}}
+                    <li>{{.}}</li>
+                {{end}}
+            </ul>
+        </div>
+    {{end}}
+</div>
+
+</div>
+
+<script>
+var map = L.map('map').setView([20, 0], 2);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap'
+}).addTo(map);
+
+const locations = [
+{{range $place, $dates := .Relation.DatesLocations}}
+    "{{$place}}",
 {{end}}
+];
+
+locations.forEach(place => {
+    fetch("https://nominatim.openstreetmap.org/search?format=json&q=" + place)
+    .then(res => res.json())
+    .then(data => {
+        if (data.length > 0) {
+            L.marker([data[0].lat, data[0].lon]).addTo(map)
+              .bindPopup(place);
+        }
+    });
+});
+</script>
 
 </body>
 </html>
