@@ -1,27 +1,33 @@
-const input = document.getElementById("search");
-const suggestions = document.getElementById("suggestions");
+const input = document.getElementById("search")
+const box = document.getElementById("suggestions")
 
 input.addEventListener("input", () => {
-    const q = input.value.trim();
-    if (q.length < 2) {
-        suggestions.innerHTML = "";
-        return;
-    }
+  const q = input.value.trim()
+  if (q.length < 2) {
+    box.innerHTML = ""
+    return
+  }
 
-    fetch("/artists?search=" + encodeURIComponent(q))
-        .then(res => res.text())
-        .then(html => {
-            const names = [...html.matchAll(/<h3>(.*?)<\/h3>/g)]
-                .map(m => m[1])
-                .slice(0, 5);
+  fetch("/artists?search=" + q)
+    .then(r => r.text())
+    .then(t => {
+      const res = []
+      const parts = t.split("<h3>")
 
-            suggestions.innerHTML = names.map(n =>
-                `<div class="suggestion" onclick="selectSuggestion('${n}')">${n}</div>`
-            ).join("");
-        });
-});
+      for (let i = 1; i < parts.length && res.length < 5; i++) {
+        const name = parts[i].split("</h3>")[0]
+        res.push(name)
+      }
 
-function selectSuggestion(name) {
-    input.value = name;
-    suggestions.innerHTML = "";
-}
+      box.innerHTML = res.map(n =>
+        `<div class="suggestion" data-name="${n}">${n}</div>`
+      ).join("")
+    })
+})
+
+box.addEventListener("click", e => {
+  if (e.target.dataset.name) {
+    input.value = e.target.dataset.name
+    box.innerHTML = ""
+  }
+})

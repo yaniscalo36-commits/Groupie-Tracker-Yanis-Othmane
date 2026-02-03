@@ -1,84 +1,45 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>{{.Artist.Name}}</title>
-
-<link rel="stylesheet" href="/static/style.css">
-
-<!-- Leaflet -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <meta charset="UTF-8">
+    <title>{{.Artist.Name}}</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 </head>
-
 <body>
 
+<!-- HEADER -->
 <header class="top-header">
-    <h1>{{.Artist.Name}}</h1>
+  <div class="header-content">
     <nav>
-        <a href="/artists">← Retour</a>
+      <a href="/artists">Artistes</a>
     </nav>
+  </div>
 </header>
 
-<div class="artist-page">
 
-<div class="artist-left">
-    <img src="{{.Artist.Image}}" alt="{{.Artist.Name}}" class="artist-photo">
 
-    <p><strong>Créé en :</strong> {{.Artist.CreationDate}}</p>
-    <p><strong>Premier album :</strong> {{.Artist.FirstAlbum}}</p>
 
-    <h3>Membres</h3>
-    <ul>
-    {{range .Artist.Members}}
-        <li>{{.}}</li>
-    {{end}}
-    </ul>
+<!-- ARTIST INFO -->
+<div style="margin-top:150px; text-align:center;">
+    <h2>{{.Artist.Name}}</h2>
+    <img src="{{.Artist.Image}}" style="width:300px;border-radius:15px;">
+    <p>Créé en {{.Artist.CreationDate}}</p>
+    <p>Premier album : {{.Artist.FirstAlbum}}</p>
 </div>
 
-<div class="artist-right">
-    <h3>Carte des concerts</h3>
-    <div id="map"></div>
+<h3 style="text-align:center;">Carte des concerts</h3>
 
-    <h3>Dates & lieux</h3>
+<div id="map" style="height:400px;width:80%;margin:20px auto;border-radius:20px;"></div>
 
-    {{range $place, $dates := .Relation.DatesLocations}}
-        <div class="concert-block">
-            <strong>{{$place}}</strong>
-            <ul>
-                {{range $dates}}
-                    <li>{{.}}</li>
-                {{end}}
-            </ul>
-        </div>
-    {{end}}
-</div>
-
-</div>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <script>
 var map = L.map('map').setView([20, 0], 2);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap'
+    attribution: '© OpenStreetMap'
 }).addTo(map);
-
-const locations = [
-{{range $place, $dates := .Relation.DatesLocations}}
-    "{{$place}}",
-{{end}}
-];
-
-locations.forEach(place => {
-    fetch("https://nominatim.openstreetmap.org/search?format=json&q=" + place)
-    .then(res => res.json())
-    .then(data => {
-        if (data.length > 0) {
-            L.marker([data[0].lat, data[0].lon]).addTo(map)
-              .bindPopup(place);
-        }
-    });
-});
 </script>
 
 </body>

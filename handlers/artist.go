@@ -8,6 +8,11 @@ import (
 	"strconv"
 )
 
+type ConcertPoint struct {
+	Place string
+	Last  string
+}
+
 func Artist(w http.ResponseWriter, r *http.Request) {
 	idStr := r.URL.Query().Get("id")
 	id, err := strconv.Atoi(idStr)
@@ -28,13 +33,23 @@ func Artist(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// On regroupe tout dans une seule structure
+	var points []ConcertPoint
+
+	for place, dates := range relation.DatesLocations {
+		if len(dates) > 0 {
+			points = append(points, ConcertPoint{
+				Place: place,
+				Last:  dates[len(dates)-1],
+			})
+		}
+	}
+
 	data := struct {
-		Artist   models.Artist
-		Relation models.Relation
+		Artist models.Artist
+		Points []ConcertPoint
 	}{
-		Artist:   artist,
-		Relation: relation,
+		Artist: artist,
+		Points: points,
 	}
 
 	tmpl, err := template.ParseFiles("templates/artist.html")

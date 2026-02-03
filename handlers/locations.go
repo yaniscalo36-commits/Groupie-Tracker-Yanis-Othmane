@@ -1,47 +1,38 @@
 package handlers
 
 import (
-	"groupie-tracker/api"
 	"html/template"
 	"net/http"
+
+	"groupie-tracker/api"
 )
+
+type Concert struct {
+	ArtistID int
+	Dates    []string
+}
 
 func Location(w http.ResponseWriter, r *http.Request) {
 	place := r.URL.Query().Get("place")
 	if place == "" {
-		http.Error(w, "Lieu manquant", 400)
+		http.Error(w, "missing place", http.StatusBadRequest)
 		return
 	}
 
-	relations, err := api.GetRelations()
+	rels, err := api.GetRelations()
 	if err != nil {
-		http.Error(w, "Erreur API", 500)
+		http.Error(w, "api error", 500)
 		return
 	}
 
-	type Concert struct {
-		ArtistID int
-		Dates    []string
-	}
+	var list []Concert
 
-	var concerts []Concert
-
-	for _, rel := range relations {
-		if rel.DatesLocations != nil {
-			if dates, ok := rel.DatesLocations[place]; ok {
-				concerts = append(concerts, Concert{
-					ArtistID: rel.ID,
-					Dates:    dates,
-				})
-			}
+	for _, r := range rels {
+		if dates, ok := r.DatesLocations[place]; ok {
+			list = append(list, Concert{r.ID, dates})
 		}
 	}
 
-	tmpl, err := template.ParseFiles("templates/location.html")
-	if err != nil {
-		http.Error(w, "Erreur template", 500)
-		return
-	}
-
-	tmpl.Execute(w, concerts)
+	tpl, _ := template.ParseFiles("templates/location.html")
+	tpl.Execute(w, list)
 }

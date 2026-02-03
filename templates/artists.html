@@ -1,65 +1,54 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Artistes</title>
-    <link rel="stylesheet" href="/static/style.css">
+  <meta charset="UTF-8">
+  <title>Artistes</title>
+  <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="top-header">
-  <h1>Groupie Tracker</h1>
+  <h1>Groupie Vibes</h1>
   <nav>
     <a href="/">Accueil</a>
     <a href="/artists" class="active">Artistes</a>
   </nav>
 </header>
 
-
-<!-- CONTROLS -->
 <div class="search-filters">
 
-<form method="GET" action="/artists" class="search-bar">
-    <input 
-        type="text" 
-        name="search" 
-        id="search"
-        placeholder="Rechercher un artiste ou un membre..."
-        autocomplete="off"
-    >
-    <button type="submit">🔍</button>
+  <form method="GET" action="/artists" class="search-bar">
+    <input type="text" name="search" id="search" placeholder="Rechercher..." autocomplete="off">
+    <button type="submit">OK</button>
     <div id="suggestions"></div>
-</form>
+  </form>
 
-<form method="GET" action="/artists" class="filters">
+  <form method="GET" action="/artists" class="filters">
     <input type="number" name="minYear" placeholder="Année min">
     <input type="number" name="maxYear" placeholder="Année max">
 
     <div class="members-filter">
-        <label><input type="checkbox" name="members" value="1"> Solo</label>
-        <label><input type="checkbox" name="members" value="2"> Duo</label>
-        <label><input type="checkbox" name="members" value="3"> 3–4</label>
-        <label><input type="checkbox" name="members" value="5"> 5+</label>
+      <label><input type="checkbox" name="members" value="1"> 1</label>
+      <label><input type="checkbox" name="members" value="2"> 2</label>
+      <label><input type="checkbox" name="members" value="3"> 3–4</label>
+      <label><input type="checkbox" name="members" value="5"> 5+</label>
     </div>
 
     <button type="submit">Filtrer</button>
-</form>
+  </form>
 
 </div>
 
-<!-- ARTISTS -->
 <div class="artists-grid">
 {{range .}}
-    <div class="artist-card">
-        <img src="{{.Image}}" alt="{{.Name}}">
-        <div class="artist-info">
-            <h3>{{.Name}}</h3>
-            <p>Créé en {{.CreationDate}}</p>
-            <p>{{len .Members}} membres</p>
-            <a href="/artist?id={{.ID}}">Voir détails</a>
-        </div>
+  <div class="artist-card">
+    <img src="{{.Image}}" alt="">
+    <div class="artist-info">
+      <h3>{{.Name}}</h3>
+      <p>{{.CreationDate}} • {{len .Members}} membres</p>
+      <a href="/artist?id={{.ID}}">Détails</a>
     </div>
+  </div>
 {{end}}
 </div>
 

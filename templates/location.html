@@ -1,30 +1,37 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Concerts par lieu</title>
-    <link rel="stylesheet" href="/static/style.css">
+  <meta charset="UTF-8">
+  <title>Concerts</title>
+  <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
-<a href="/artists">← Retour aux artistes</a>
+<header class="top-header">
+  <h1>Concerts</h1>
+  <nav>
+    <a href="/artists">Retour</a>
+  </nav>
+</header>
 
-<h1>Concerts à ce lieu</h1>
+<div class="page-content">
 
-{{if .}}
+  {{if .}}
     {{range .}}
-        <div class="artist-card">
-            <h3>Artiste #{{.ArtistID}}</h3>
-            <ul>
-            {{range .Dates}}
-                <li>{{.}}</li>
-            {{end}}
-            </ul>
-        </div>
+      <div class="concert-block">
+        <strong>Artiste #{{.ArtistID}}</strong>
+        <ul>
+          {{range .Dates}}
+          <li>{{.}}</li>
+          {{end}}
+        </ul>
+      </div>
     {{end}}
-{{else}}
-    <p>Aucun concert trouvé pour ce lieu.</p>
-{{end}}
+  {{else}}
+    <p>Aucun concert trouvé.</p>
+  {{end}}
+
+</div>
 
 </body>
 </html>

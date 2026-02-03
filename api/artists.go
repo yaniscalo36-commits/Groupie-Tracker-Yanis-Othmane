@@ -2,37 +2,38 @@ package api
 
 import (
 	"encoding/json"
-	"net/http"
-	"groupie-tracker/models"
 	"fmt"
+	"net/http"
+
+	"groupie-tracker/models"
 )
 
+const artistsURL = "https://groupietrackers.herokuapp.com/api/artists"
+
 func GetArtists() ([]models.Artist, error) {
-	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
+	resp, err := http.Get(artistsURL)
 	if err != nil {
 		return nil, err
 	}
 	defer resp.Body.Close()
 
-	var artists []models.Artist
-	err = json.NewDecoder(resp.Body).Decode(&artists)
-	if err != nil {
+	var list []models.Artist
+	if err := json.NewDecoder(resp.Body).Decode(&list); err != nil {
 		return nil, err
 	}
-
-	return artists, nil
+	return list, nil
 }
+
 func GetArtistByID(id int) (models.Artist, error) {
-	artists, err := GetArtists()
+	list, err := GetArtists()
 	if err != nil {
 		return models.Artist{}, err
 	}
 
-	for _, a := range artists {
+	for _, a := range list {
 		if a.ID == id {
 			return a, nil
 		}
 	}
-
-	return models.Artist{}, fmt.Errorf("not found")
+	return models.Artist{}, fmt.Errorf("artist not found")
 }

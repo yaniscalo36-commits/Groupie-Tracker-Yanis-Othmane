@@ -3,40 +3,40 @@ package api
 import (
 	"encoding/json"
 	"net/http"
+
 	"groupie-tracker/models"
 )
 
-type relationAPI struct {
+const relationsURL = "https://groupietrackers.herokuapp.com/api/relation"
+
+type relationResponse struct {
 	Index []models.Relation `json:"index"`
 }
 
 func GetRelations() ([]models.Relation, error) {
-	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/relation")
+	resp, err := http.Get(relationsURL)
 	if err != nil {
 		return nil, err
 	}
 	defer resp.Body.Close()
 
-	var data relationAPI
-	err = json.NewDecoder(resp.Body).Decode(&data)
-	if err != nil {
+	var res relationResponse
+	if err := json.NewDecoder(resp.Body).Decode(&res); err != nil {
 		return nil, err
 	}
-
-	return data.Index, nil
+	return res.Index, nil
 }
 
 func GetRelationByID(id int) (models.Relation, error) {
-	rels, err := GetRelations()
+	list, err := GetRelations()
 	if err != nil {
 		return models.Relation{}, err
 	}
 
-	for _, r := range rels {
+	for _, r := range list {
 		if r.ID == id {
 			return r, nil
 		}
 	}
-
 	return models.Relation{}, nil
 }
