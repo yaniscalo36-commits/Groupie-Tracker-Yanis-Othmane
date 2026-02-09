@@ -1,5 +1,17 @@
+/* ===== THEME VARIABLES ===== */
+:root {
+  --primary: #00ff8f;
+  --secondary: #00c853;
+}
+
+body.theme-purple {
+  --primary: #b15cff;
+  --secondary: #7b2cff;
+}
+
 /* ===== RESET ===== */
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
   background: radial-gradient(circle at top, #111, #000 70%);
   font-family: "Segoe UI", Arial, sans-serif;
@@ -13,161 +25,291 @@ body {
   width: 100%;
   padding: 18px 0;
   text-align: center;
-  background: linear-gradient(90deg,#00ff8f,#00c853);
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
   box-shadow: 0 8px 40px rgba(0,255,143,.4);
   z-index: 1000;
 }
-.top-header h1 { font-size: 2.2rem; color:#001b0d; }
+
 .top-header nav a {
   margin: 0 18px;
   font-weight: 700;
   color:#001b0d;
   text-decoration: none;
 }
-.top-header nav a.active { text-decoration: underline; }
+
+.top-header nav a.active {
+  text-decoration: underline;
+}
 
 /* ===== GLOBAL OFFSET ===== */
-.page-content,.search-filters,.artist-page,.hero { margin-top:150px; }
-
-/* ===== SEARCH ===== */
-.search-filters { display:flex; justify-content:center; gap:40px; flex-wrap:wrap; margin-bottom:50px; }
-.search-bar { position:relative; }
-.search-bar input {
-  width:320px;
-  padding:14px 24px;
-  border-radius:40px;
-  background:#111;
-  color:white;
-  border:none;
-  box-shadow: 0 0 0 2px #00e676 inset;
-}
-.search-bar button {
-  position:absolute; right:6px; top:6px;
-  border:none; background:#00e676;
-  padding:9px 13px; border-radius:50%;
-}
-
-/* ===== FILTERS ===== */
-.filters {
-  background:#141414;
-  padding:20px;
-  border-radius:20px;
-  display:flex;
-  gap:12px;
-}
-.filters input {
-  background:#111;
-  border:none;
-  padding:10px;
-  border-radius:10px;
-  color:white;
-}
-
-/* ===== ARTISTS GRID ===== */
-.artists-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-  gap:40px;
-  padding:60px;
-}
-
-/* ===== ARTIST CARD ===== */
-.artist-card {
-  background:linear-gradient(145deg,#111,#1b1b1b);
-  border-radius:20px;
-  overflow:hidden;
-  transition:.4s;
-}
-.artist-card:hover {
-  transform: translateY(-12px) scale(1.03);
-  box-shadow:0 30px 80px rgba(0,230,118,.5);
-}
-.artist-card img { width:100%; height:240px; object-fit:cover; }
-.artist-info { padding:18px; }
-.artist-info h3 { font-size:1.4rem; }
-.artist-info p { color:#aaa; }
-.artist-info a {
-  display:inline-block;
-  margin-top:12px;
-  background:linear-gradient(90deg,#00ff8f,#00c853);
-  color:black;
-  padding:10px 18px;
-  border-radius:12px;
-  text-decoration:none;
-  font-weight:bold;
-}
-
-/* ===== ARTIST PAGE ===== */
-.artist-page { display:flex; gap:60px; padding:60px; }
-.artist-left { width:35%; }
-.artist-right { width:65%; }
-.artist-img {
-  width:100%;
-  max-width:380px;
-  height:380px;
-  object-fit:contain;
-  background:#111;
-  padding:20px;
-  border-radius:20px;
-}
-
-/* ===== CONCERTS ===== */
-.concert-block {
-  background:linear-gradient(145deg,#111,#1b1b1b);
-  border-radius:18px;
-  padding:18px;
-  margin-bottom:25px;
-}
-.concert-block strong { color:#00ff8f; display:block; margin-bottom:10px; }
-.concert-block ul {
-  list-style:none;
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(110px,1fr));
-  gap:12px;
-}
-.concert-block li {
-  background:#222;
-  padding:10px;
-  border-radius:10px;
-  text-align:center;
+.hero,
+.search-filters,
+.artists-grid,
+.artist-page {
+  margin-top: 150px;
 }
 
 /* ===== HOME ===== */
 .hero {
-  text-align:center;
-  padding:120px 20px;
+  text-align: center;
+  padding: 120px 20px;
 }
+
 .hero h2 {
-  font-size:3.5rem;
-  background:linear-gradient(90deg,#00ff8f,#00c853);
-  -webkit-background-clip:text;
-  color:transparent;
+  font-size: 3.5rem;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  color: transparent;
 }
-.hero p { color:#aaa; margin-top:20px; }
+
+.hero p {
+  color: #aaa;
+  margin-top: 20px;
+}
+
 .hero-btn {
-  display:inline-block;
-  margin-top:40px;
-  background:linear-gradient(90deg,#00ff8f,#00c853);
-  color:black;
-  padding:16px 42px;
-  border-radius:40px;
-  font-weight:bold;
-  text-decoration:none;
+  display: inline-block;
+  margin-top: 40px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  color: black;
+  padding: 16px 42px;
+  border-radius: 40px;
+  font-weight: bold;
+  text-decoration: none;
 }
 
-.features {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:40px;
-  padding:80px;
+/* ===== SEARCH & FILTERS ===== */
+.search-filters {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 50px;
 }
-.feature-card {
-  background:linear-gradient(145deg,#111,#1b1b1b);
-  padding:50px;
-  border-radius:25px;
-  text-align:center;
-}
-.feature-card h3 { color:#00ff8f; }
-/* ===== HEADER LOGO ===== */
-/* ===== HEADER LOGO ===== */
 
+.search-bar input {
+  width: 320px;
+  padding: 14px 24px;
+  border-radius: 40px;
+  background: #111;
+  color: white;
+  border: none;
+  box-shadow: 0 0 0 2px var(--primary) inset;
+}
+
+/* ===== FILTER PANEL ===== */
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: rgba(20,20,20,0.85);
+  padding: 14px 20px;
+  border-radius: 20px;
+}
+
+.filters input[type="number"] {
+  width: 110px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 2px solid var(--primary);
+  background: #111;
+  color: white;
+}
+
+.members-filter {
+  display: flex;
+  gap: 8px;
+}
+
+.members-filter input {
+  display: none;
+}
+
+.members-filter label {
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: #111;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.members-filter input:checked + label {
+  background: var(--primary);
+  color: black;
+}
+
+/* ===== SORT BUTTONS ===== */
+.sort-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.sort-buttons button {
+  background: var(--primary);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* ===== ARTISTS GRID ===== */
+.artists-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(260px,1fr));
+  gap: 40px;
+  padding: 60px;
+}
+
+/* ===== ARTIST CARD ===== */
+.artist-card {
+  background: linear-gradient(145deg,#111,#1b1b1b);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: .4s;
+}
+
+.artist-card:hover {
+  transform: translateY(-12px) scale(1.03);
+  box-shadow: 0 30px 80px rgba(0,230,118,.5);
+}
+
+.artist-card img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+}
+
+.artist-info {
+  padding: 18px;
+}
+
+.artist-info h3 {
+  font-size: 1.4rem;
+}
+
+.artist-info p {
+  color: #aaa;
+}
+
+.artist-info a {
+  display: inline-block;
+  margin-top: 12px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  color: black;
+  padding: 10px 18px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* ===== ARTIST PAGE ===== */
+.artist-page {
+  padding: 60px;
+}
+
+.artist-center {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.artist-name {
+  font-size: 2.8rem;
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+.artist-img {
+  max-width: 380px;
+  height: 380px;
+  object-fit: contain;
+  background: #111;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+/* ===== MAP ===== */
+#map {
+  height: 400px;
+  width: 80%;
+  margin: 30px auto;
+  border-radius: 20px;
+  background: #111;
+}
+
+/* ===== CONCERTS ===== */
+.concert-title {
+  text-align: center;
+  margin: 50px 0 25px;
+  font-size: 1.8rem;
+  color: var(--primary);
+}
+
+.concert-list {
+  width: 70%;
+  margin: auto;
+}
+
+.concert-line {
+  display: flex;
+  justify-content: space-between;
+  background: linear-gradient(145deg,#111,#1b1b1b);
+  padding: 16px 22px;
+  border-radius: 14px;
+  margin-bottom: 14px;
+}
+
+.concert-place {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.concert-date {
+  color: #ccc;
+}
+/* ===== THEME BUTTON ===== */
+.theme-btn {
+  position: absolute;
+  top: 50%;
+  right: 25px;
+  transform: translateY(-50%);
+  background: var(--primary);
+  border: none;
+  color: black;
+  padding: 8px 14px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+/* ===== ACTION BUTTONS (OK / FILTRER) ===== */
+.btn-action {
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+/* Hover effect */
+.btn-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+
+/* Small spacing tweak */
+.btn-search {
+  margin-left: 10px;
+}
+
+.btn-filter {
+  margin-left: 10px;
+}

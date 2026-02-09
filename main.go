@@ -9,16 +9,26 @@ import (
 
 func main() {
 
-	
-	fs := http.FileServer(http.Dir("./static"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	mux := http.NewServeMux()
 
-	// Routes
-	http.HandleFunc("/", handlers.Home)
-	http.HandleFunc("/artists", handlers.Artists)
-	http.HandleFunc("/artist", handlers.Artist)
-	http.HandleFunc("/location", handlers.Location)
+	// Static files
+	fs := http.FileServer(http.Dir("./static"))
+	mux.Handle("/static/", http.StripPrefix("/static/", fs))
+
+	// Routes précises
+	mux.HandleFunc("/artists", handlers.Artists)
+	mux.HandleFunc("/artist", handlers.Artist)
+	mux.HandleFunc("/404", handlers.NotFound)
+
+	// Route racine + 404
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path == "/" {
+			handlers.Home(w, r)
+			return
+		}
+		handlers.NotFound(w, r)
+	})
 
 	log.Println("Serveur lancé sur http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":8080", mux))
 }

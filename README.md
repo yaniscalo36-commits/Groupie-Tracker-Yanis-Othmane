@@ -1,93 +1,113 @@
-Groupie Vibes — Groupie Tracker
-Présentation :
+🎵 Groupie Vibes — Groupie Tracker
+Présentation
 
-Groupie Vibes est une application web développée en Go, css et js permettant de découvrir des artistes musicaux ainsi que leurs concerts à travers le monde grâce à l’API de Groupie Trackers.
+Groupie Vibes est une application web développée en Go, HTML, CSS et JavaScript.
+Elle permet de découvrir des artistes musicaux ainsi que leurs concerts à travers le monde grâce à l’API Groupie Trackers.
 
-L’objectif était de créer une application complète côté serveur, avec une interface simple en HTML/CSS et quelques interactions en JavaScript (filtre etc)
+L’objectif de ce projet était de concevoir une application complète côté serveur, avec une interface simple et ergonomique, tout en intégrant des interactions dynamiques côté client (recherche, filtres, tri, changement de thème, etc.).
 
-Technologies :
+Technologies utilisées
 
-Go (backend)
+Go — backend et logique serveur
 
-HTML / CSS / JavaScript (frontend)
+HTML / CSS / JavaScript — interface utilisateur
 
-API Groupie Trackers
+API Groupie Trackers — données artistes et concerts
 
-Leaflet (carte)
+Leaflet — affichage de la carte des concerts
 
-Trello (gestion de projet) : https://trello.com/invite/b/69397600f8c295f399af78f9/ATTId545bda60bb3b5dd251664978d084b9802030673/groupie-tracker
+Trello — gestion du projet
+👉 https://trello.com/invite/b/69397600f8c295f399af78f9/ATTId545bda60bb3b5dd251664978d084b9802030673/groupie-tracker
 
-Github : https://github.com/yaniscalo36-commits/Groupie-Tracker-Yanis-Othmane.git
+GitHub — gestion du code source
+👉 https://github.com/yaniscalo36-commits/Groupie-Tracker-Yanis-Othmane.git
 
-Fonctionnalités :
+Canva — support de présentation
+👉 https://www.canva.com/design/DAHAN9kQR0U/AAWwUffOGR9n2YId3yuAzw/edit
+
+Fonctionnalités
 
 Page d’accueil
 
 Liste des artistes
 
-Page par artiste
+Page de détail par artiste
 
-Recherche avec suggestions
+Recherche avec suggestions dynamiques
 
-Filtres
+Filtres (nom, année, nombre de membres)
+
+Tri dynamique
 
 Carte des concerts
 
-Gestion des erreurs
+Changement de thème (clair / sombre)
 
-Lancer le projet :
+Page 404 personnalisée
+
+Gestion des erreurs côté serveur
+
+Lancer le projet
+
+Dans le dossier du projet :
+
 go run .
 
 
-Puis ouvrir :
+Puis ouvrir dans un navigateur :
 
 http://localhost:8080
 
-Répartition du travail :
-
+Répartition du travail
 Othmane
 
-Structure du projet
+Mise en place de la structure du projet
 
-Organisation Trello
+Organisation du travail via Trello
 
-Participation backend
+Participation au backend
 
-Tests
+Tests de l’application
 
 Yanis
 
-Backend Go
+Développement du backend en Go
 
-Intégration API
+Intégration de l’API Groupie Trackers
 
-HTML / CSS / JavaScript
+Développement du frontend (HTML / CSS / JavaScript)
 
 Corrections de bugs
 
-Difficultés :
+Amélioration de l’expérience utilisateur
 
-Carte interactive
+Difficultés rencontrées
 
-Synchronisation frontend / backend
+Mise en place de la carte interactive
 
-Problèmes Git
+Synchronisation entre le frontend et le backend
 
-Configuration serveur
+Gestion du travail collaboratif avec Git
 
-Réussites :
+Configuration et routage du serveur
 
-Site fonctionnel
+Réussites
 
-API intégrée
+Application entièrement fonctionnelle
 
-Recherche + filtres
+API correctement intégrée
 
-Carte interactive
+Recherche et filtres efficaces
+
+Carte des concerts affichée
 
 Bonne organisation du projet
 
-Conclusion :
+Interface claire et moderne
 
-Ce projet m’a permis de découvrir l’ensemble du développement web, du backend au frontend.
-C’était un projet très formateur que j’aimerais continuer à améliorer, notamment en ajoutant plus de fonctionnalités liées à la musique.
+Conclusion
+
+Ce projet nous a permis de découvrir l’ensemble du développement web, du backend au frontend, et de mieux comprendre la communication entre un serveur et une interface utilisateur.
+
+Il a été très formateur, tant sur le plan technique que sur l’organisation du travail en équipe.
+Nous aimerions continuer à améliorer cette application en ajoutant de nouvelles fonctionnalités liées à la musique et à l’expérience utilisateur.

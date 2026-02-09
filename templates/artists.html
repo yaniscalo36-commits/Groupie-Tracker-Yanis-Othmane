@@ -3,55 +3,104 @@
 <head>
   <meta charset="UTF-8">
   <title>Artistes</title>
+
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
+<!-- HEADER -->
 <header class="top-header">
   <h1>Groupie Vibes</h1>
+
   <nav>
     <a href="/">Accueil</a>
     <a href="/artists" class="active">Artistes</a>
   </nav>
+
+  <!-- Bouton thème -->
+  <button class="theme-btn" onclick="toggleTheme()">🎨</button>
 </header>
 
-<div class="search-filters">
+<!-- FORMULAIRE : RECHERCHE & FILTRES -->
+<form method="GET" action="/artists" class="search-filters">
 
-  <form method="GET" action="/artists" class="search-bar">
-    <input type="text" name="search" id="search" placeholder="Rechercher..." autocomplete="off">
-    <button type="submit">OK</button>
+  <!-- Recherche -->
+  <div class="search-bar">
+    <input
+      type="text"
+      name="search"
+      id="search"
+      placeholder="Rechercher un artiste ou un membre…"
+      autocomplete="off"
+    >
+
+    <button type="submit" class="btn-action btn-search">OK</button>
+
     <div id="suggestions"></div>
-  </form>
+  </div>
 
-  <form method="GET" action="/artists" class="filters">
+  <!-- Filtres -->
+  <div class="filters">
     <input type="number" name="minYear" placeholder="Année min">
     <input type="number" name="maxYear" placeholder="Année max">
 
     <div class="members-filter">
-      <label><input type="checkbox" name="members" value="1"> 1</label>
-      <label><input type="checkbox" name="members" value="2"> 2</label>
-      <label><input type="checkbox" name="members" value="3"> 3–4</label>
-      <label><input type="checkbox" name="members" value="5"> 5+</label>
+      <label>
+        <input type="checkbox" name="members" value="1">
+        1
+      </label>
+
+      <label>
+        <input type="checkbox" name="members" value="2">
+        2
+      </label>
+
+      <label>
+        <input type="checkbox" name="members" value="3">
+        3–4
+      </label>
+
+      <label>
+        <input type="checkbox" name="members" value="5">
+        5+
+      </label>
     </div>
 
-    <button type="submit">Filtrer</button>
-  </form>
-
-</div>
-
-<div class="artists-grid">
-{{range .}}
-  <div class="artist-card">
-    <img src="{{.Image}}" alt="">
-    <div class="artist-info">
-      <h3>{{.Name}}</h3>
-      <p>{{.CreationDate}} • {{len .Members}} membres</p>
-      <a href="/artist?id={{.ID}}">Détails</a>
-    </div>
+    <button type="submit" class="btn-action btn-filter">Filtrer</button>
   </div>
-{{end}}
+
+</form>
+
+<!-- TRI & ACTIONS -->
+<div class="sort-buttons">
+  <button type="button" onclick="sortArtists('name')">Nom A–Z</button>
+  <button type="button" onclick="sortArtists('year')">Année</button>
+  <button type="button" onclick="sortArtists('members')">Membres</button>
+  <button type="button" onclick="resetAll()">Réinitialiser</button>
 </div>
 
+<!-- LISTE DES ARTISTES -->
+<div class="artists-grid">
+  {{range .}}
+    <div
+      class="artist-card"
+      data-name="{{.Name}}"
+      data-year="{{.CreationDate}}"
+      data-members="{{len .Members}}"
+    >
+      <img src="{{.Image}}" alt="Image de {{.Name}}">
+
+      <div class="artist-info">
+        <h3>{{.Name}}</h3>
+        <p>{{.CreationDate}} • {{len .Members}} membres</p>
+        <a href="/artist?id={{.ID}}">Détails</a>
+      </div>
+    </div>
+  {{end}}
+</div>
+
+<!-- SCRIPTS -->
+<script src="/static/js/theme.js"></script>
 <script src="/static/js/search.js"></script>
 
 </body>

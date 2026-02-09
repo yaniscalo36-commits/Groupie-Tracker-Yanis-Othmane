@@ -1,45 +1,79 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>{{.Artist.Name}}</title>
-    <link rel="stylesheet" href="/static/style.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <meta charset="UTF-8">
+  <title>{{.Artist.Name}}</title>
+
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
 </head>
 <body>
 
 <!-- HEADER -->
 <header class="top-header">
-  <div class="header-content">
-    <nav>
-      <a href="/artists">Artistes</a>
-    </nav>
-  </div>
+  <nav>
+    <a href="/artists">Artistes</a>
+  </nav>
+
+  <!-- Bouton thème -->
+  <button class="theme-btn" onclick="toggleTheme()">🎨</button>
 </header>
 
-
-
-
-<!-- ARTIST INFO -->
-<div style="margin-top:150px; text-align:center;">
-    <h2>{{.Artist.Name}}</h2>
-    <img src="{{.Artist.Image}}" style="width:300px;border-radius:15px;">
-    <p>Créé en {{.Artist.CreationDate}}</p>
-    <p>Premier album : {{.Artist.FirstAlbum}}</p>
+<!-- Bouton retour -->
+<div class="back-container">
+  <a href="/artists" class="back-btn">← Retour aux artistes</a>
 </div>
 
-<h3 style="text-align:center;">Carte des concerts</h3>
+<!-- PAGE ARTISTE -->
+<div class="artist-page">
 
-<div id="map" style="height:400px;width:80%;margin:20px auto;border-radius:20px;"></div>
+  <!-- Informations artiste -->
+  <div class="artist-center">
+    <h2 class="artist-name">{{.Artist.Name}}</h2>
 
+    <img
+      class="artist-img"
+      src="{{.Artist.Image}}"
+      alt="Image de {{.Artist.Name}}"
+    >
+
+    <p>Créé en {{.Artist.CreationDate}}</p>
+    <p>Premier album : {{.Artist.FirstAlbum}}</p>
+  </div>
+
+  <!-- Carte des concerts -->
+  <h3 class="concert-title">Carte des concerts</h3>
+  <div id="map"></div>
+
+  <!-- Liste des concerts -->
+  <h3 class="concert-title">Lieux et dates des concerts</h3>
+
+  {{if .Points}}
+    <div class="concert-list">
+      {{range .Points}}
+        <div class="concert-line">
+          <span class="concert-place">{{.Place}}</span>
+          <span class="concert-date">{{.Date}}</span>
+        </div>
+      {{end}}
+    </div>
+  {{else}}
+    <p class="concert-empty">Aucun concert trouvé.</p>
+  {{end}}
+
+</div>
+
+<!-- SCRIPTS -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="/static/js/theme.js"></script>
 
 <script>
-var map = L.map('map').setView([20, 0], 2);
+  // Initialisation de la carte
+  const map = L.map('map').setView([20, 0], 2)
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap'
-}).addTo(map);
+  }).addTo(map)
 </script>
 
 </body>

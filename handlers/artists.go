@@ -10,71 +10,97 @@ import (
 	"groupie-tracker/models"
 )
 
-func matchMembers(n int, filters []string) bool {
-	if len(filters) == 0 {
-		return true
-	}
-	for _, f := range filters {
-		switch f {
-		case "1":
-			if n == 1 {
-				return true
-			}
-		case "2":
-			if n == 2 {
-				return true
-			}
-		case "3":
-			if n >= 3 && n <= 4 {
-				return true
-			}
-		case "5":
-			if n >= 5 {
-				return true
-			}
+// Artists affiche la page des artistes avec les filtres appliqués
+func Artists(w http.ResponseWriter, r *http.Request) {
+
+	//  Recherche texte (nom de l'artiste ou membre)
+	search := strings.ToLower(r.URL.Query().Get("search"))
+
+	//  Filtres par année de création
+	minYear := 0
+	maxYear := 3000
+
+	if value := r.URL.Query().Get("minYear"); value != "" {
+		if year, err := strconv.Atoi(value); err == nil {
+			minYear = year
 		}
 	}
-	return false
-}
 
-func Artists(w http.ResponseWriter, r *http.Request) {
-	q := strings.ToLower(r.URL.Query().Get("search"))
-	minY, _ := strconv.Atoi(r.URL.Query().Get("minYear"))
-	maxY, _ := strconv.Atoi(r.URL.Query().Get("maxYear"))
-	if maxY == 0 {
-		maxY = 3000
+	if value := r.URL.Query().Get("maxYear"); value != "" {
+		if year, err := strconv.Atoi(value); err == nil {
+			maxYear = year
+		}
 	}
-	fMembers := r.URL.Query()["members"]
 
-	list, err := api.GetArtists()
+	//  Filtre par nombre de membres
+	selectedMembers := r.URL.Query()["members"]
+
+	// Récupération des artistes depuis l'API
+	artists, err := api.GetArtists()
 	if err != nil {
-		http.Error(w, "api error", 500)
+		http.Error(w, "Impossible de récupérer les artistes", http.StatusInternalServerError)
 		return
 	}
 
-	var res []models.Artist
+	var filtered []models.Artist
 
-	for _, a := range list {
-		if a.CreationDate < minY || a.CreationDate > maxY {
+	for _, artist := range artists {
+
+		// --- Filtre année ---
+		if artist.CreationDate < minYear || artist.CreationDate > maxYear {
 			continue
 		}
-		if !matchMembers(len(a.Members), fMembers) {
-			continue
-		}
-		if q != "" {
-			ok := strings.Contains(strings.ToLower(a.Name), q)
-			for _, m := range a.Members {
-				if strings.Contains(strings.ToLower(m), q) {
-					ok = true
+
+		// --- Filtre membres ---
+		if len(selectedMembers) > 0 {
+			match := false
+
+			for _, m := range selectedMembers {
+				switch m {
+				case "1":
+					match = len(artist.Members) == 1
+				case "2":
+					match = len(artist.Members) == 2
+				case "3":
+					match = len(artist.Members) >= 3 && len(artist.Members) <= 4
+				case "5":
+					match = len(artist.Members) >= 5
+				}
+				if match {
+					break
 				}
 			}
-			if !ok {
+
+			if !match {
 				continue
 			}
 		}
-		res = append(res, a)
+
+		// --- Recherche texte ---
+		if search != "" {
+			found := strings.Contains(strings.ToLower(artist.Name), search)
+
+			for _, member := range artist.Members {
+				if strings.Contains(strings.ToLower(member), search) {
+					found = true
+					break
+				}
+			}
+
+			if !found {
+				continue
+			}
+		}
+
+		filtered = append(filtered, artist)
 	}
 
-	tpl, _ := template.ParseFiles("templates/artists.html")
-	tpl.Execute(w, res)
+	// Affichage du template
+	tmpl, err := template.ParseFiles("templates/artists.html")
+	if err != nil {
+		http.Error(w, "Erreur lors du chargement de la page artistes", http.StatusInternalServerError)
+		return
+	}
+
+	tmpl.Execute(w, filtered)
 }
